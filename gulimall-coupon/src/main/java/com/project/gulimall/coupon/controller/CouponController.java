@@ -34,17 +34,12 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
-    @Value("${coupon.user.name}")
-    String userName;
-
-    @Value("${coupon.user.age}")
-    int userAge;
     /**
      * 远程测试
      */
     @RequestMapping("/test")
     public R test(){
-        return R.ok().put("name", userName).put("age", userAge);
+        return R.ok().put("name", "tetsName").put("age", "ageTest");
     }
 
     /**
