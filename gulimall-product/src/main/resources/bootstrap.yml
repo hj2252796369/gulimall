@@ -1,16 +1,23 @@
+
 nacos:
   serverAddr: 127.0.0.1
   port: 8848
 
 spring:
   application:
-    name: gulimall-gateway
+    name: gulimall-product
   cloud:
     nacos:
       config:
         file-extension: yml
-        group: GATEWAY_GROUP
+        group: GULIMALL_GROUP
         server-addr: ${nacos.serverAddr}:${nacos.port}
         namespace: 7d61c90c-b258-4fe0-9865-380b8fe6342e
+        extension-configs:
+          - dataId: mybatis.yml
+            group: COMMON_GROUP
+            refresh: true
       discovery:
         server-addr: ${nacos.serverAddr}:${nacos.port}
+
+
