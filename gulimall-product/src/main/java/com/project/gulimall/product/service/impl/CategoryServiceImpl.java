@@ -46,6 +46,12 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return entities;
     }
 
+    @Override
+    public void removeMeunByIds(List<Long> asList) {
+        //TODO 其他逻辑  这里只处理逻辑删除
+        baseMapper.deleteBatchIds(asList);
+    }
+
     /**
      * 递归寻找子菜单
      * @param entity            当前菜单项

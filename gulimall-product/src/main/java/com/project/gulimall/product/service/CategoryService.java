@@ -23,5 +23,7 @@ public interface CategoryService extends IService<CategoryEntity> {
      * @return
      */
     List<CategoryEntity> listWithTree();
+
+    void removeMeunByIds(List<Long> asList);
 }
 
