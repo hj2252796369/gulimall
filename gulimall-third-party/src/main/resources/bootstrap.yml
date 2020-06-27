@@ -1,0 +1,17 @@
+nacos:
+  address: 127.0.0.1
+  port: 8848
+
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: ${nacos.address}:${nacos.port}
+        namespace: 7d61c90c-b258-4fe0-9865-380b8fe6342e
+        ext-config:
+          -
+            data-id: oss.yml
+            group: THIRDPARTY_GROUP
+            refresh: true
+      discovery:
+        server-addr: ${nacos.address}:${nacos.port}

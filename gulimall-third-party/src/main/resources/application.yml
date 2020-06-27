@@ -1,0 +1,21 @@
+
+nacos:
+  address: 127.0.0.1
+  port: 8848
+
+spring:
+  cloud:
+    alicloud:
+      access-key: LTAI4G5eKz9B7CvZTcaSoPfo
+      secret-key: HCHwIGr5QZYv8OEuqE95nj0IZhnpJl
+      oss:
+        endpoint: oss-cn-chengdu.aliyuncs.com
+        bucket: gulimall-hujie
+    nacos:
+      config:
+        server-addr: ${nacos.address}:${nacos.port}
+        namespace: 7d61c90c-b258-4fe0-9865-380b8fe6342e
+  application:
+    name: gulimall-third-party
+server:
+  port: 30000
