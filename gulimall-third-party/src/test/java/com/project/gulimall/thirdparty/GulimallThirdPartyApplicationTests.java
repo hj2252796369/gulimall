@@ -29,10 +29,10 @@ class GulimallThirdPartyApplicationTests {
     void test() {
 
 
-        String accessId = "LTAI4G5eKz9B7CvZTcaSoPfo"; // 请填写您的AccessKeyId。
-        String accessKey = "HCHwIGr5QZYv8OEuqE95nj0IZhnpJl"; // 请填写您的AccessKeySecret。
-        String endpoint = "oss-cn-chengdu.aliyuncs.com"; // 请填写您的 endpoint。
-        String bucket = "gulimall-hujie"; // 请填写您的 bucketname 。
+        String accessId = "yourAccessKeyIds"; // 请填写您的AccessKeyId。
+        String accessKey = "yourAccessKeySecret"; // 请填写您的AccessKeySecret。
+        String endpoint = "endpoint"; // 请填写您的 endpoint。
+        String bucket = "yourBucketname"; // 请填写您的 bucketname 。
         String host = "https://" + bucket + "." + endpoint; // host的格式为 bucketname.endpoint
         // callbackUrl为 上传回调服务器的URL，请将下面的IP和Port配置为您自己的真实信息。
 
