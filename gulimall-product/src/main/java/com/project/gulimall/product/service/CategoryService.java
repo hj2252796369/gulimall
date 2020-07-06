@@ -20,10 +20,19 @@ public interface CategoryService extends IService<CategoryEntity> {
 
     /**
      * 查询树状图菜单
+     *
      * @return
      */
     List<CategoryEntity> listWithTree();
 
     void removeMeunByIds(List<Long> asList);
+
+    /**
+     * 找到三级分类的全部路径
+     *
+     * @param catelogId
+     * @return
+     */
+    Long[] findCatelogPath(Long catelogId);
 }
 
