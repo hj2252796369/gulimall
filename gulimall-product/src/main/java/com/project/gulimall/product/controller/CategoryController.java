@@ -1,21 +1,14 @@
 package com.project.gulimall.product.controller;
 
+import com.project.common.utils.R;
+import com.project.gulimall.product.entity.CategoryEntity;
+import com.project.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.project.gulimall.product.entity.CategoryEntity;
-import com.project.gulimall.product.service.CategoryService;
-import com.project.common.utils.PageUtils;
-import com.project.common.utils.R;
-
 
 
 /**
@@ -35,8 +28,8 @@ public class CategoryController {
      * 列表
      */
     @RequestMapping("/list/tree")
-    public R list(@RequestParam Map<String, Object> params){
-        List<CategoryEntity> entities = categoryService.listWithTree();
+    public R list(@RequestParam Map<String, Object> params) {
+        List<CategoryEntity> entities = this.categoryService.listWithTree();
 
         return R.ok().put("entities", entities);
     }
@@ -46,8 +39,8 @@ public class CategoryController {
      * 信息
      */
     @RequestMapping("/info/{catId}")
-    public R info(@PathVariable("catId") Long catId){
-		CategoryEntity category = categoryService.getById(catId);
+    public R info(@PathVariable("catId") Long catId) {
+        CategoryEntity category = this.categoryService.getById(catId);
 
         return R.ok().put("category", category);
     }
@@ -56,8 +49,8 @@ public class CategoryController {
      * 保存
      */
     @RequestMapping("/save")
-    public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+    public R save(@RequestBody CategoryEntity category) {
+        this.categoryService.save(category);
         return R.ok();
     }
 
@@ -66,8 +59,8 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update/sort")
-    public R updateSort(@RequestBody CategoryEntity[] category){
-        categoryService.updateBatchById(Arrays.asList(category));
+    public R updateSort(@RequestBody CategoryEntity[] category) {
+        this.categoryService.updateBatchById(Arrays.asList(category));
         return R.ok();
     }
 
@@ -75,8 +68,8 @@ public class CategoryController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
+    public R update(@RequestBody CategoryEntity category) {
+        this.categoryService.updateCascade(category);
 
         return R.ok();
     }
@@ -85,9 +78,9 @@ public class CategoryController {
      * 删除
      */
     @RequestMapping("/delete")
-    public R delete(@RequestBody Long[] catIds){
+    public R delete(@RequestBody Long[] catIds) {
 //		categoryService.removeByIds(Arrays.asList(catIds));
-		categoryService.removeMeunByIds(Arrays.asList(catIds));
+        this.categoryService.removeMeunByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

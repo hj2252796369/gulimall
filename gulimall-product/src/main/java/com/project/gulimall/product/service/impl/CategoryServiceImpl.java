@@ -8,7 +8,10 @@ import com.project.common.utils.PageUtils;
 import com.project.common.utils.Query;
 import com.project.gulimall.product.dao.CategoryDao;
 import com.project.gulimall.product.entity.CategoryEntity;
+import com.project.gulimall.product.service.CategoryBrandRelationService;
 import com.project.gulimall.product.service.CategoryService;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -19,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -66,6 +71,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         Collections.reverse(parentPath);
 
         return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    /**
+     * 级联更新
+     *
+     * @param category
+     */
+    @Override
+    public void updateCascade(CategoryEntity category) {
+        this.updateById(category);
+        if (!StringUtils.isBlank(category.getName())) {
+            this.categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+        }
     }
 
     //225,25,2
