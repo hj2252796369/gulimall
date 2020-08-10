@@ -20,7 +20,7 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<AttrGroupEntity> page = this.page(
+        IPage<AttrGroupEntity> page = page(
                 new Query<AttrGroupEntity>().getPage(params),
                 new QueryWrapper<>()
         );
@@ -42,14 +42,14 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         }
 
         if (catelogId == 0) {
-            IPage<AttrGroupEntity> page = this.page(
+            IPage<AttrGroupEntity> page = page(
                     new Query<AttrGroupEntity>().getPage(params),
                     queryWrapper
             );
             return new PageUtils(page);
         } else {
 
-            IPage<AttrGroupEntity> page = this.page(
+            IPage<AttrGroupEntity> page = page(
                     new Query<AttrGroupEntity>().getPage(params),
                     queryWrapper.eq(AttrGroupEntity::getCatelogId, catelogId)
             );
