@@ -3,14 +3,17 @@ package com.project.gulimall.product.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.project.common.utils.PageUtils;
 import com.project.common.utils.R;
+import com.project.gulimall.product.entity.BrandEntity;
 import com.project.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.project.gulimall.product.service.CategoryBrandRelationService;
+import com.project.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -31,18 +34,38 @@ public class CategoryBrandRelationController {
      */
     @GetMapping("/catelog/list")
     public R catelogList(@RequestParam("brandId") String brandId) {
-        List<CategoryBrandRelationEntity> categoryBrandRelationEntityList = this.categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
+        List<CategoryBrandRelationEntity> categoryBrandRelationEntityList = categoryBrandRelationService.list(new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
 
         return R.ok().put("data", categoryBrandRelationEntityList);
     }
 
+    /**
+     * 获取分类关联的品牌(  /product/categorybrandrelation/brands/list)
+     *
+     * @param catId
+     * @return
+     */
+    @GetMapping("/brands/list")
+    public R brandsList(@RequestParam("catId") String catId) {
+        List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
+
+        List<BrandVo> collect = vos.stream().map(item -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+
+            return brandVo;
+        }).collect(Collectors.toList());
+
+        return R.ok().put("data", collect);
+    }
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params) {
-        PageUtils page = this.categoryBrandRelationService.queryPage(params);
+        PageUtils page = categoryBrandRelationService.queryPage(params);
 
         return R.ok().put("page", page);
     }
@@ -53,7 +76,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id) {
-        CategoryBrandRelationEntity categoryBrandRelation = this.categoryBrandRelationService.getById(id);
+        CategoryBrandRelationEntity categoryBrandRelation = categoryBrandRelationService.getById(id);
 
         return R.ok().put("categoryBrandRelation", categoryBrandRelation);
     }
@@ -63,7 +86,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation) {
-        this.categoryBrandRelationService.saveDetail(categoryBrandRelation);
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
 
         return R.ok();
     }
@@ -73,7 +96,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody CategoryBrandRelationEntity categoryBrandRelation) {
-        this.categoryBrandRelationService.updateById(categoryBrandRelation);
+        categoryBrandRelationService.updateById(categoryBrandRelation);
 
         return R.ok();
     }
@@ -83,7 +106,7 @@ public class CategoryBrandRelationController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids) {
-        this.categoryBrandRelationService.removeByIds(Arrays.asList(ids));
+        categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
         return R.ok();
     }

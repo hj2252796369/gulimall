@@ -16,7 +16,9 @@ import com.project.gulimall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("categoryBrandRelationService")
@@ -29,7 +31,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
-        IPage<CategoryBrandRelationEntity> page = this.page(
+        IPage<CategoryBrandRelationEntity> page = page(
                 new Query<CategoryBrandRelationEntity>().getPage(params),
                 new QueryWrapper<>()
         );
@@ -41,13 +43,13 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     public void saveDetail(CategoryBrandRelationEntity categoryBrandRelation) {
         Long brandId = categoryBrandRelation.getBrandId();
         Long catelogId = categoryBrandRelation.getCatelogId();
-        BrandEntity brandEntity = this.brandService.getById(brandId);
-        CategoryEntity categoryEntity = this.categoryService.getById(catelogId);
+        BrandEntity brandEntity = brandService.getById(brandId);
+        CategoryEntity categoryEntity = categoryService.getById(catelogId);
 
         categoryBrandRelation.setBrandName(brandEntity.getName());
         categoryBrandRelation.setCatelogName(categoryEntity.getName());
 
-        this.save(categoryBrandRelation);
+        save(categoryBrandRelation);
     }
 
     @Override
@@ -56,7 +58,7 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         categoryBrandRelation.setBrandId(brandId);
         categoryBrandRelation.setBrandName(name);
 
-        this.update(categoryBrandRelation, new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
+        update(categoryBrandRelation, new UpdateWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId));
     }
 
     @Override
@@ -64,7 +66,18 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         CategoryBrandRelationEntity categoryBrandRelation = new CategoryBrandRelationEntity();
         categoryBrandRelation.setCatelogId(catId);
         categoryBrandRelation.setCatelogName(name);
-        this.update(categoryBrandRelation, new UpdateWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        update(categoryBrandRelation, new UpdateWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+    }
+
+    @Override
+    public List<BrandEntity> getBrandsByCatId(String catId) {
+        List<CategoryBrandRelationEntity> catelogId = baseMapper.selectList(new QueryWrapper<CategoryBrandRelationEntity>().eq("catelog_id", catId));
+        List<BrandEntity> collect = catelogId.stream().map(item -> {
+            Long brandId = item.getBrandId();
+            BrandEntity byId = brandService.getById(brandId);
+            return byId;
+        }).collect(Collectors.toList());
+        return collect;
     }
 
 }
