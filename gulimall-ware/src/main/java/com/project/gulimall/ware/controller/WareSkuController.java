@@ -4,10 +4,12 @@ import com.project.common.utils.PageUtils;
 import com.project.common.utils.R;
 import com.project.gulimall.ware.entity.WareSkuEntity;
 import com.project.gulimall.ware.service.WareSkuService;
+import com.project.gulimall.ware.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -23,6 +25,19 @@ import java.util.Map;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+
+    /**
+     * 根据skuId查询是否有库存
+     *
+     * @param skuIds
+     * @return
+     */
+    @PostMapping("/hasStock")
+    public R getSkuHasStock(@RequestBody List<Long> skuIds) {
+        List<SkuHasStockVo> skuHasStockVos = wareSkuService.getSkuHasStock(skuIds);
+
+        return R.ok().setData(skuHasStockVos);
+    }
 
     /**
      * 列表

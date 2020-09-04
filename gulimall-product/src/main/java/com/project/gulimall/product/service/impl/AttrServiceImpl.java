@@ -180,7 +180,6 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
      */
     @Override
     public void relationDelete(AttrGroupRelationVO[] attrGroupRelationVOS) {
-//        boolean remove = attrAttrgroupRelationService.remove(Wrappers.<AttrAttrgroupRelationEntity>query().lambda().eq(AttrAttrgroupRelationEntity::getAttrGroupId, attrGroupRelationVO.getAttrGroupId()).eq(AttrAttrgroupRelationEntity::getAttrId, attrGroupRelationVO.getAttrId()));
         List<AttrAttrgroupRelationEntity> collect = Arrays.asList(attrGroupRelationVOS).stream().map((item) -> {
             AttrAttrgroupRelationEntity realationEntity = new AttrAttrgroupRelationEntity();
             BeanUtils.copyProperties(item, realationEntity);
@@ -226,5 +225,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return new PageUtils(page);
     }
 
+    @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds) {
+        return baseMapper.selectSearchAttrIds(attrIds);
+    }
 
 }
