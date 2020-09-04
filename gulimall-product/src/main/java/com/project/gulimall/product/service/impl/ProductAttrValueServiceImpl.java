@@ -9,9 +9,11 @@ import com.project.gulimall.product.dao.ProductAttrValueDao;
 import com.project.gulimall.product.entity.ProductAttrValueEntity;
 import com.project.gulimall.product.service.ProductAttrValueService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service("productAttrValueService")
@@ -33,7 +35,7 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         return entities;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> entities) {
         //1、删除这个spuId之前对应的所有属性
